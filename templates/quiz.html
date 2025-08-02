@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>{{ quiz_title }}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap 4 CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+<!-- Navigation Header -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
+    <div class="container">
+        <a class="navbar-brand" href="#">
+            <!-- Custom Cactus SVG Icon -->
+            <svg class="cactus-svg mr-2" width="28" height="28" viewBox="0 0 24 24" fill="none"
+                 xmlns="http://www.w3.org/2000/svg">
+                <!-- Pot -->
+                <path d="M8 20 L16 20 L15 22 L9 22 Z" fill="#8B4513" stroke="#654321" stroke-width="1"/>
+                <!-- Main stem -->
+                <rect x="11" y="8" width="2" height="12" rx="1" fill="#228B22" stroke="#1F7A1F" stroke-width="0.5"/>
+                <!-- Left arm -->
+                <path d="M9 12 Q8 11 8 13 L8 15 Q8 16 9 16 L11 16" fill="#228B22" stroke="#1F7A1F" stroke-width="0.5"/>
+                <!-- Right arm -->
+                <path d="M13 10 L15 10 Q16 10 16 11 L16 13 Q16 14 15 14 Q14 14 14 13" fill="#228B22" stroke="#1F7A1F"
+                      stroke-width="0.5"/>
+                <!-- Spikes -->
+                <circle cx="10" cy="14" r="0.5" fill="#90EE90"/>
+                <circle cx="12" cy="10" r="0.5" fill="#90EE90"/>
+                <circle cx="12" cy="15" r="0.5" fill="#90EE90"/>
+                <circle cx="15" cy="11" r="0.5" fill="#90EE90"/>
+                <!-- Flower on top -->
+                <circle cx="12" cy="8" r="1.5" fill="#FF69B4" stroke="#FF1493" stroke-width="0.5"/>
+            </svg>
+            {{ quiz_title }}
+        </a>
+        <div class="navbar-nav ml-auto">
+                <span class="navbar-text">
+                    <i class="fas fa-clock mr-1"></i>
+                    <span id="timer">00:00</span>
+                </span>
+        </div>
+    </div>
+</nav>
+
+<!-- Main Content -->
+<div class="container my-5">
+    <!-- Quiz Header -->
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="card border-0 shadow-lg">
+                <div class="card-header bg-gradient-primary text-white text-center">
+                    <h1 class="mb-0">
+                        <i class="fas fa-clipboard-check mr-2"></i>
+                        {{ quiz_title }}
+                    </h1>
+                </div>
+                <div class="card-body p-4">
+                    <!-- Quiz Info -->
+                    <div class="alert alert-info border-0 shadow-sm mb-4">
+                        <div class="row align-items-center">
+                            <div class="col-md-6">
+                                <h5 class="mb-0">
+                                    <i class="fas fa-info-circle mr-2"></i>
+                                    Quiz Information
+                                </h5>
+                            </div>
+                            <div class="col-md-6 text-md-right">
+                                    <span class="badge badge-primary badge-lg px-3 py-2">
+                                        {{ num_questions }} {{ 'Question' if num_questions == 1 else 'Questions' }}
+                                    </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Quiz Form -->
+                    <form method="POST" action="/submit" id="quiz-form">
+                        {% for loop_index in range(questions|length) %}
+                            {% set question = questions[loop_index] %}
+                            <div class="question-container mb-4">
+                                <div class="card border-0 shadow-sm">
+                                    <div class="card-header bg-light border-bottom-0">
+                                        <div class="row align-items-center">
+                                            <div class="col">
+                                                <h5 class="mb-0 text-primary">
+                                                    <i class="fas fa-question-circle mr-2"></i>
+                                                    Question {{ loop_index + 1 }}
+                                                </h5>
+                                            </div>
+                                            <div class="col-auto">
+                                                <span class="badge badge-outline-primary">
+                                                    {{ question.choices|length }} Options
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <!-- Question Text -->
+                                        <div class="question-text mb-4">
+                                            <p class="h6 text-light">{{ question['question'] }}</p>
+                                        </div>
+
+                                        <!-- Hidden Fields for Timestamps -->
+                                        <input type="hidden" name="first_modified_{{ question['question_id'] }}"
+                                               id="first_modified_{{ question['question_id'] }}" value="">
+                                        <input type="hidden" name="last_modified_{{ question['question_id'] }}"
+                                               id="last_modified_{{ question['question_id'] }}" value="">
+
+                                        <!-- Answer Choices -->
+                                        <div class="question-choices" id="{{ question['question_id'] }}">
+                                            {% for choice in question['choices'] %}
+                                                <div class="choice-item mb-2">
+                                                    <input type="checkbox"
+                                                           class="choice-checkbox d-none"
+                                                           name="{{ question['question'] }}"
+                                                           value="{{ choice }}"
+                                                           id="{{ question['question_id'] }}_{{ loop.index }}">
+                                                    <label class="choice-label w-100 m-0"
+                                                           for="{{ question['question_id'] }}_{{ loop.index }}">
+                                                        <div class="choice-content p-3 border rounded">
+                                                            <div class="d-flex align-items-center">
+                                                                <span class="choice-letter mr-3">{{ 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'[loop.index0] }}</span>
+                                                                <span class="choice-text">{{ choice }}</span>
+                                                                <i class="fas fa-check-circle choice-check ml-auto"></i>
+                                                            </div>
+                                                        </div>
+                                                    </label>
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+
+                        <!-- Submit Section -->
+                        <div class="text-center mt-5">
+                            <div class="card border-0 shadow-sm bg-light">
+                                <div class="card-body">
+                                    <h5 class="card-title text-primary mb-3">
+                                        <i class="fas fa-paper-plane mr-2"></i>
+                                        Ready to Submit?
+                                    </h5>
+                                    <p class="text-muted mb-3">
+                                        Please review your answers before submitting.
+                                    </p>
+                                    <button type="submit" class="btn btn-primary btn-lg px-5 shadow-sm"
+                                            id="submit-button">
+                                        <i class="fas fa-check mr-2"></i>
+                                        Submit Quiz
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Progress Bar -->
+<div class="progress-container fixed-bottom">
+    <div class="progress" style="height: 4px; border-radius: 0;">
+        <div class="progress-bar bg-primary" role="progressbar" style="width: 0%"></div>
+    </div>
+</div>
+
+<!-- Scripts -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        // Timer functionality
+        let startTime = new Date();
+        let timerInterval = setInterval(updateTimer, 1000);
+
+        function updateTimer() {
+            let now = new Date();
+            let elapsed = Math.floor((now - startTime) / 1000);
+            let minutes = Math.floor(elapsed / 60);
+            let seconds = elapsed % 60;
+            $('#timer').text(
+                (minutes < 10 ? '0' : '') + minutes + ':' +
+                (seconds < 10 ? '0' : '') + seconds
+            );
+        }
+
+        // Progress tracking
+        function updateProgress() {
+            let totalQuestions = $('.question-container').length;
+            let answeredQuestions = 0;
+
+            $('.question-container').each(function () {
+                if ($(this).find('input[type="checkbox"]:checked').length > 0) {
+                    answeredQuestions++;
+                }
+            });
+
+            let progress = (answeredQuestions / totalQuestions) * 100;
+            $('.progress-bar').css('width', progress + '%');
+        }
+
+        // Checkbox change handler
+        $('.choice-checkbox').change(function () {
+            let $choiceItem = $(this).closest('.choice-item');
+            let $questionDiv = $(this).closest('.question-choices');
+            let questionId = $questionDiv.attr('id');
+
+            // Update timestamps
+            let firstModifiedField = $("#first_modified_" + questionId);
+            let lastModifiedField = $("#last_modified_" + questionId);
+            let now = new Date().toISOString().slice(0, 19).replace('T', ' ');
+
+            if (!firstModifiedField.val()) {
+                firstModifiedField.val(now);
+            }
+            lastModifiedField.val(now);
+
+            // Update progress
+            updateProgress();
+
+            // Add subtle animation
+            $choiceItem.find('.choice-content').addClass('choice-animate');
+            setTimeout(() => {
+                $choiceItem.find('.choice-content').removeClass('choice-animate');
+            }, 300);
+        });
+
+        // Form submission with confirmation
+        $('#quiz-form').submit(function (e) {
+            let answeredCount = 0;
+            let totalQuestions = $('.question-container').length;
+
+            $('.question-container').each(function () {
+                if ($(this).find('input[type="checkbox"]:checked').length > 0) {
+                    answeredCount++;
+                }
+            });
+
+            if (answeredCount < totalQuestions) {
+                e.preventDefault();
+                if (!confirm(`You have answered ${answeredCount} out of ${totalQuestions} questions. Are you sure you want to submit?`)) {
+                    return false;
+                }
+            }
+
+            // Disable submit button to prevent double submission
+            $('#submit-button').prop('disabled', true).html('<i class="fas fa-spinner fa-spin mr-2"></i>Submitting...');
+            clearInterval(timerInterval);
+        });
+
+        // Initialize progress
+        updateProgress();
+
+        // Smooth scrolling for better UX
+        $('html').css('scroll-behavior', 'smooth');
+    });
+</script>
+</body>
+
+</html>

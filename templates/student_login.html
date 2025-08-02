@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Student Login - Quiz</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap 4 CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+<!-- Navigation Header -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
+    <div class="container">
+        <a class="navbar-brand" href="#">
+            <!-- Custom Cactus SVG Icon -->
+            <svg class="cactus-svg mr-2" width="28" height="28" viewBox="0 0 24 24" fill="none"
+                 xmlns="http://www.w3.org/2000/svg">
+                <!-- Pot -->
+                <path d="M8 20 L16 20 L15 22 L9 22 Z" fill="#8B4513" stroke="#654321" stroke-width="1"/>
+                <!-- Main stem -->
+                <rect x="11" y="8" width="2" height="12" rx="1" fill="#228B22" stroke="#1F7A1F" stroke-width="0.5"/>
+                <!-- Left arm -->
+                <path d="M9 12 Q8 11 8 13 L8 15 Q8 16 9 16 L11 16" fill="#228B22" stroke="#1F7A1F" stroke-width="0.5"/>
+                <!-- Right arm -->
+                <path d="M13 10 L15 10 Q16 10 16 11 L16 13 Q16 14 15 14 Q14 14 14 13" fill="#228B22" stroke="#1F7A1F"
+                      stroke-width="0.5"/>
+                <!-- Spikes -->
+                <circle cx="10" cy="14" r="0.5" fill="#90EE90"/>
+                <circle cx="12" cy="10" r="0.5" fill="#90EE90"/>
+                <circle cx="12" cy="15" r="0.5" fill="#90EE90"/>
+                <circle cx="15" cy="11" r="0.5" fill="#90EE90"/>
+                <!-- Flower on top -->
+                <circle cx="12" cy="8" r="1.5" fill="#FF69B4" stroke="#FF1493" stroke-width="0.5"/>
+            </svg>
+            Quiz Portal
+        </a>
+    </div>
+</nav>
+
+<!-- Main Content -->
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+            <div class="card border-0 shadow-lg">
+                <div class="card-header bg-gradient-primary text-white text-center">
+                    <h1 class="mb-0">
+                        <i class="fas fa-user-graduate mr-2"></i>
+                        Student Login
+                    </h1>
+                </div>
+                <div class="card-body p-5">
+                    <!-- Flash Messages -->
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                        {% if messages %}
+                            {% for category, message in messages %}
+                                <div class="alert alert-{{ 'danger' if category == 'error' else category }} alert-dismissible fade show"
+                                     role="alert">
+                                    <i class="fas fa-{{ 'exclamation-triangle' if category == 'error' else 'info-circle' }} mr-2"></i>
+                                    {{ message }}
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+
+                    <!-- Welcome Message -->
+                    <div class="text-center mb-4">
+                        <div class="welcome-icon mb-3">
+                            <i class="fas fa-clipboard-check fa-4x text-primary"></i>
+                        </div>
+                        <h3 class="text-primary mb-2">Welcome to the Quiz</h3>
+                        <p class="text-muted">Please enter your full name to begin</p>
+                    </div>
+
+                    <!-- Instructions -->
+                    <div class="alert alert-info border-0 shadow-sm mb-4">
+                        <h6 class="mb-2">
+                            <i class="fas fa-info-circle mr-2"></i>
+                            Important Instructions:
+                        </h6>
+                        <ul class="mb-0 small">
+                            <li>Enter your <strong>full name</strong> as registered</li>
+                            <li>Do <strong>not</strong> copy and paste during the quiz</li>
+                            <li>Do <strong>not</strong> switch tabs or leave the quiz page</li>
+                            <li>Ensure stable internet connection</li>
+                            <li>Complete the quiz in one session</li>
+                        </ul>
+                    </div>
+
+                    <!-- Login Form -->
+                    <form method="POST" action="/start_quiz" id="login-form">
+                        <div class="form-group mb-4">
+                            <label for="student_name" class="form-label font-weight-bold">
+                                <i class="fas fa-user mr-2"></i>Full Name
+                            </label>
+                            <input type="text"
+                                   class="form-control form-control-lg"
+                                   id="student_name"
+                                   name="student_name"
+                                   placeholder="Enter your full name"
+                                   required
+                                   autocomplete="name"
+                                   maxlength="100">
+                            <small class="form-text text-muted">
+                                Enter your name exactly as it appears in class records
+                            </small>
+                        </div>
+
+                        <!-- Agreement Checkbox -->
+                        <div class="form-group mb-4">
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="agreement" required
+                                       style="transform: scale(1.2);">
+                                <label class="form-check-label" for="agreement" style="padding-left: 10px;">
+                                    I understand and agree to follow the quiz rules and academic integrity policy
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary btn-lg btn-block shadow-sm" id="start-btn">
+                                <i class="fas fa-play mr-2"></i>
+                                Start Quiz
+                            </button>
+                        </div>
+                    </form>
+
+                    <!-- Technical Requirements -->
+                    <div class="mt-4 pt-3 border-top">
+                        <h6 class="text-muted mb-2">
+                            <i class="fas fa-desktop mr-2"></i>Technical Requirements:
+                        </h6>
+                        <div class="row text-center">
+                            <div class="col-4">
+                                <small class="text-muted">
+                                    <i class="fab fa-chrome fa-lg d-block mb-1"></i>
+                                    Modern Browser
+                                </small>
+                            </div>
+                            <div class="col-4">
+                                <small class="text-muted">
+                                    <i class="fas fa-wifi fa-lg d-block mb-1"></i>
+                                    Stable Internet
+                                </small>
+                            </div>
+                            <div class="col-4">
+                                <small class="text-muted">
+                                    <i class="fas fa-mouse fa-lg d-block mb-1"></i>
+                                    JavaScript Enabled
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Scripts -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        // Form validation
+        $('#login-form').submit(function (e) {
+            const studentName = $('#student_name').val().trim();
+
+            // Basic name validation
+            if (studentName.length < 2) {
+                e.preventDefault();
+                alert('Please enter a valid name (at least 2 characters).');
+                return false;
+            }
+
+            // Check for valid characters (letters, spaces, hyphens, apostrophes)
+            const namePattern = /^[a-zA-Z\s\-']+$/;
+            if (!namePattern.test(studentName)) {
+                e.preventDefault();
+                alert('Name can only contain letters, spaces, hyphens, and apostrophes.');
+                return false;
+            }
+
+            // Disable button to prevent double submission
+            $('#start-btn').prop('disabled', true).html('<i class="fas fa-spinner fa-spin mr-2"></i>Starting Quiz...');
+        });
+
+        // Real-time name validation
+        $('#student_name').on('input', function () {
+            const name = $(this).val().trim();
+            const namePattern = /^[a-zA-Z\s\-']+$/;
+
+            if (name.length > 0 && !namePattern.test(name)) {
+                $(this).addClass('is-invalid');
+                if (!$('.invalid-feedback').length) {
+                    $(this).after('<div class="invalid-feedback">Only letters, spaces, hyphens, and apostrophes are allowed.</div>');
+                }
+            } else {
+                $(this).removeClass('is-invalid');
+                $('.invalid-feedback').remove();
+            }
+        });
+
+        // Focus on name input
+        $('#student_name').focus();
+
+        // Prevent right-click context menu
+        $(document).contextmenu(function () {
+            return false;
+        });
+
+        // Detect developer tools (basic detection)
+        let devtools = {open: false, orientation: null};
+        const threshold = 160;
+
+        setInterval(function () {
+            if (window.outerHeight - window.innerHeight > threshold ||
+                window.outerWidth - window.innerWidth > threshold) {
+                if (!devtools.open) {
+                    devtools.open = true;
+                    console.clear();
+                    console.log('%cDeveloper tools detected. This action has been logged.', 'color: red; font-size: 20px;');
+                }
+            } else {
+                devtools.open = false;
+            }
+        }, 500);
+    });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,308 @@
+[
+  {
+    "question_id": 1,
+    "question": "What did Laura do yesterday?",
+    "choices": [
+      "She got up at 7 o’clock.",
+      "She had a big breakfast.",
+      "She took the bus to work.",
+      "She started work at 8.45."
+    ],
+    "correct_answers": [
+      "She got up at 7 o’clock.",
+      "She had a big breakfast.",
+      "She started work at 8.45."
+    ]
+  },
+  {
+    "question_id": 2,
+    "question": "What did Laura NOT do yesterday?",
+    "choices": [
+      "She had lunch.",
+      "She was tired when she got home.",
+      "She went out yesterday evening.",
+      "She slept well last night."
+    ],
+    "correct_answers": [
+      "She had lunch.",
+      "She went out yesterday evening."
+    ]
+  },
+  {
+    "question_id": 3,
+    "question": "Which of the following are in the correct past form (from 5.2)?",
+    "choices": [
+      "write – wrote",
+      "teach – teached",
+      "fall – fell",
+      "hurt – hurt"
+    ],
+    "correct_answers": [
+      "write – wrote",
+      "fall – fell",
+      "hurt – hurt"
+    ]
+  },
+  {
+    "question_id": 4,
+    "question": "Which verbs correctly complete this sentence: 'Joe ___ the ball to Sue, who ___ it.'",
+    "choices": [
+      "threw / caught",
+      "threw / catched",
+      "throwed / caught",
+      "throwed / catched"
+    ],
+    "correct_answers": [
+      "threw / caught"
+    ]
+  },
+  {
+    "question_id": 5,
+    "question": "What question would match this answer: 'Yes, we hired a car in San Francisco.'",
+    "choices": [
+      "Did you take a train?",
+      "How did you travel? By car?",
+      "Did you fly?",
+      "Where did you go?"
+    ],
+    "correct_answers": [
+      "How did you travel? By car?"
+    ]
+  },
+  {
+    "question_id": 6,
+    "question": "Choose the correct past tense completions for this sentence: 'I knew Sarah was busy, so I ___ her.'",
+    "choices": [
+      "didn’t disturb",
+      "disturbed",
+      "was disturbing",
+      "disturb"
+    ],
+    "correct_answers": [
+      "didn’t disturb"
+    ]
+  },
+  {
+    "question_id": 7,
+    "question": "Which of the following are true based on sentence completions from 5.4?",
+    "choices": [
+      "The bed was very uncomfortable. I didn’t sleep well.",
+      "I had time to call you.",
+      "It was hard carrying the bags. They were heavy.",
+      "The room wasn’t clean."
+    ],
+    "correct_answers": [
+      "The bed was very uncomfortable. I didn’t sleep well.",
+      "It was hard carrying the bags. They were heavy.",
+      "The room wasn’t clean."
+    ]
+  },
+  {
+    "question_id": 8,
+    "question": "Complete the sentence: 'It was warm, so I ___ off my coat.'",
+    "choices": [
+      "took",
+      "take",
+      "taken",
+      "taking"
+    ],
+    "correct_answers": [
+      "took"
+    ]
+  },
+  {
+    "question_id": 9,
+    "question": "Complete the sentence: 'The film wasn’t very good. I ___ it much.'",
+    "choices": [
+      "enjoyed",
+      "didn’t enjoy",
+      "was enjoying",
+      "don’t enjoy"
+    ],
+    "correct_answers": [
+      "didn’t enjoy"
+    ]
+  },
+  {
+    "question_id": 10,
+    "question": "Complete the sentence: 'I knew Sarah was busy, so I ___ her.'",
+    "choices": [
+      "disturbed",
+      "was disturbing",
+      "didn’t disturb",
+      "disturb"
+    ],
+    "correct_answers": [
+      "didn’t disturb"
+    ]
+  },
+  {
+    "question_id": 11,
+    "question": "Complete the sentence: 'We were very tired, so we ___ the party early.'",
+    "choices": [
+      "left",
+      "leaved",
+      "didn’t leave",
+      "leave"
+    ],
+    "correct_answers": [
+      "left"
+    ]
+  },
+  {
+    "question_id": 12,
+    "question": "Complete the sentence: 'It was hard carrying the bags. They really ___ heavy.'",
+    "choices": [
+      "was",
+      "were",
+      "are",
+      "be"
+    ],
+    "correct_answers": [
+      "were"
+    ]
+  },
+  {
+    "question_id": 13,
+    "question": "Complete the sentence: 'The bed was very uncomfortable. I ___ well.'",
+    "choices": [
+      "sleep",
+      "slept",
+      "didn’t sleep",
+      "sleeped"
+    ],
+    "correct_answers": [
+      "didn’t sleep"
+    ]
+  },
+  {
+    "question_id": 14,
+    "question": "Complete the sentence: 'This watch wasn’t expensive. It ___ much.'",
+    "choices": [
+      "costed",
+      "didn’t cost",
+      "costs",
+      "was costing"
+    ],
+    "correct_answers": [
+      "didn’t cost"
+    ]
+  },
+  {
+    "question_id": 15,
+    "question": "Complete the sentence: 'The window was open and a bird ___ into the room.'",
+    "choices": [
+      "flies",
+      "flew",
+      "flown",
+      "flyed"
+    ],
+    "correct_answers": [
+      "flew"
+    ]
+  },
+  {
+    "question_id": 16,
+    "question": "Complete the sentence: 'I was in a hurry, so I ___ time to call you.'",
+    "choices": [
+      "didn’t have",
+      "haven’t",
+      "had",
+      "wasn’t having"
+    ],
+    "correct_answers": [
+      "didn’t have"
+    ]
+  },
+  {
+    "question_id": 17,
+    "question": "Complete the sentence: 'I didn’t like the hotel. The room ___ very clean.'",
+    "choices": [
+      "was",
+      "is",
+      "wasn’t",
+      "were"
+    ],
+    "correct_answers": [
+      "wasn’t"
+    ]
+  },
+  {
+    "question_id": 18,
+    "question": "Complete the sentence: 'Mozart ___ more than 600 pieces of music.'",
+    "choices": [
+      "wrote",
+      "write",
+      "written",
+      "was writing"
+    ],
+    "correct_answers": [
+      "wrote"
+    ]
+  },
+  {
+    "question_id": 19,
+    "question": "Complete the sentence: ‘How did you learn to drive?’ ‘My father ___ me.’",
+    "choices": [
+      "teached",
+      "teaching",
+      "taught",
+      "teach"
+    ],
+    "correct_answers": [
+      "taught"
+    ]
+  },
+  {
+    "question_id": 20,
+    "question": "Complete the sentence: 'We couldn’t afford to keep our car, so we ___ it.'",
+    "choices": [
+      "sell",
+      "sold",
+      "selled",
+      "selling"
+    ],
+    "correct_answers": [
+      "sold"
+    ]
+  },
+  {
+    "question_id": 21,
+    "question": "Complete the sentence: 'Dave ___ down the stairs this morning and ___ his leg.'",
+    "choices": [
+      "fell / hurt",
+      "fall / hurted",
+      "falled / hurt",
+      "fell / was hurting"
+    ],
+    "correct_answers": [
+      "fell / hurt"
+    ]
+  },
+  {
+    "question_id": 22,
+    "question": "Complete the sentence: 'Joe ___ the ball to Sue, who ___ it.'",
+    "choices": [
+      "throwed / catched",
+      "threw / caught",
+      "threw / catched",
+      "throw / caught"
+    ],
+    "correct_answers": [
+      "threw / caught"
+    ]
+  },
+  {
+    "question_id": 23,
+    "question": "Complete the sentence: 'Kate ___ a lot of money yesterday. She ___ a dress which cost £100.'",
+    "choices": [
+      "spend / bought",
+      "spent / buyed",
+      "spent / bought",
+      "spended / buyed"
+    ],
+    "correct_answers": [
+      "spent / bought"
+    ]
+  }
+]

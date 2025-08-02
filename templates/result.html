@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Quiz Results</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap 4 CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+<!-- Navigation Header -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
+    <div class="container">
+        <a class="navbar-brand" href="/">
+            <!-- Custom Cactus SVG Icon -->
+            <svg class="cactus-svg mr-2" width="28" height="28" viewBox="0 0 24 24" fill="none"
+                 xmlns="http://www.w3.org/2000/svg">
+                <!-- Pot -->
+                <path d="M8 20 L16 20 L15 22 L9 22 Z" fill="#8B4513" stroke="#654321" stroke-width="1"/>
+                <!-- Main stem -->
+                <rect x="11" y="8" width="2" height="12" rx="1" fill="#228B22" stroke="#1F7A1F" stroke-width="0.5"/>
+                <!-- Left arm -->
+                <path d="M9 12 Q8 11 8 13 L8 15 Q8 16 9 16 L11 16" fill="#228B22" stroke="#1F7A1F" stroke-width="0.5"/>
+                <!-- Right arm -->
+                <path d="M13 10 L15 10 Q16 10 16 11 L16 13 Q16 14 15 14 Q14 14 14 13" fill="#228B22" stroke="#1F7A1F"
+                      stroke-width="0.5"/>
+                <!-- Spikes -->
+                <circle cx="10" cy="14" r="0.5" fill="#90EE90"/>
+                <circle cx="12" cy="10" r="0.5" fill="#90EE90"/>
+                <circle cx="12" cy="15" r="0.5" fill="#90EE90"/>
+                <circle cx="15" cy="11" r="0.5" fill="#90EE90"/>
+                <!-- Flower on top -->
+                <circle cx="12" cy="8" r="1.5" fill="#FF69B4" stroke="#FF1493" stroke-width="0.5"/>
+            </svg>
+            Quiz Results
+        </a>
+    </div>
+</nav>
+
+<!-- Main Content -->
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <!-- Results Header -->
+            <div class="card border-0 shadow-lg mb-4">
+                {% set pass_status = score/total >= passing_level %}
+                <div class="card-header {{ 'bg-success' if pass_status else 'bg-danger' }} text-white text-center">
+                    <h1 class="mb-0">
+                        <i class="fas {{ 'fa-trophy' if pass_status else 'fa-times-circle' }} mr-2"></i>
+                        Quiz Results
+                    </h1>
+                </div>
+                <div class="card-body p-5">
+                    <!-- Score Display -->
+                    <div class="text-center mb-4">
+                        <div class="score-display mb-4">
+                            <div class="score-circle mx-auto {{ 'success' if pass_status else 'danger' }}">
+                                <div class="score-text">
+                                    <span class="score-number">{{ score }}</span>
+                                    <span class="score-total">/ {{ total }}</span>
+                                </div>
+                                <div class="score-percentage">
+                                    {{ "%.0f"|format((score/total)*100) }}%
+                                </div>
+                            </div>
+                        </div>
+
+                        {% if pass_status %}
+                            <div class="alert alert-success border-0 shadow-sm">
+                                <h3 class="mb-2">
+                                    <i class="fas fa-check-circle mr-2"></i>
+                                    Congratulations! You Passed!
+                                </h3>
+                                <p class="mb-0">
+                                    You scored {{ "%.0f"|format((score/total)*100) }}% which exceeds the passing
+                                    requirement of {{ "%.0f"|format(passing_level*100) }}%.
+                                </p>
+                            </div>
+                        {% else %}
+                            <div class="alert alert-danger border-0 shadow-sm">
+                                <h3 class="mb-2">
+                                    <i class="fas fa-exclamation-triangle mr-2"></i>
+                                    Keep Studying!
+                                </h3>
+                                <p class="mb-0">
+                                    You scored {{ "%.0f"|format((score/total)*100) }}%. You
+                                    need {{ "%.0f"|format(passing_level*100) }}% to pass.
+                                </p>
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Statistics -->
+                    <div class="row text-center mb-4">
+                        <div class="col-md-3 col-6 mb-3">
+                            <div class="stat-card bg-primary text-white rounded p-3">
+                                <i class="fas fa-list-ol fa-2x mb-2"></i>
+                                <h5>{{ total }}</h5>
+                                <small>Total Questions</small>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-6 mb-3">
+                            <div class="stat-card bg-success text-white rounded p-3">
+                                <i class="fas fa-check fa-2x mb-2"></i>
+                                <h5>{{ score }}</h5>
+                                <small>Correct</small>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-6 mb-3">
+                            <div class="stat-card bg-danger text-white rounded p-3">
+                                <i class="fas fa-times fa-2x mb-2"></i>
+                                <h5>{{ total - score }}</h5>
+                                <small>Incorrect</small>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-6 mb-3">
+                            <div class="stat-card bg-info text-white rounded p-3">
+                                <i class="fas fa-percentage fa-2x mb-2"></i>
+                                <h5>{{ "%.0f"|format(passing_level*100) }}%</h5>
+                                <small>Pass Requirement</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question Review -->
+            <div class="card border-0 shadow-lg">
+                <div class="card-header bg-light border-bottom-0">
+                    <h3 class="mb-0 text-primary">
+                        <i class="fas fa-clipboard-list mr-2"></i>
+                        Detailed Review
+                    </h3>
+                </div>
+                <div class="card-body p-4">
+                    {% for loop_index in range(results|length) %}
+                        {% set result = results[loop_index] %}
+                        <div class="question-review mb-4">
+                            <div class="card border-0 shadow-sm">
+                                <div class="card-header {{ 'bg-light-success' if result['is_correct'] else 'bg-light-danger' }}">
+                                    <div class="row align-items-center">
+                                        <div class="col">
+                                            <h5 class="mb-0">
+                                                <i class="fas fa-question-circle mr-2"></i>
+                                                Question {{ loop_index + 1 }}
+                                            </h5>
+                                        </div>
+                                        <div class="col-auto">
+                                            {% if result['is_correct'] %}
+                                                <span class="badge badge-success badge-lg">
+                                                    <i class="fas fa-check mr-1"></i>
+                                                    Correct
+                                                </span>
+                                            {% else %}
+                                                <span class="badge badge-danger badge-lg">
+                                                    <i class="fas fa-times mr-1"></i>
+                                                    Incorrect
+                                                </span>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <!-- Question Text -->
+                                    <div class="question-text mb-3">
+                                        <h6 class="text-dark font-weight-bold">{{ result['question'] }}</h6>
+                                    </div>
+
+                                    <!-- Answer Comparison -->
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="answer-section">
+                                                <h6 class="text-primary mb-2">
+                                                    <i class="fas fa-user mr-1"></i>
+                                                    Your Answer(s):
+                                                </h6>
+                                                <div class="answer-list">
+                                                    {% if result['user_answers'] %}
+                                                        {% for answer in result['user_answers'] %}
+                                                            <span class="badge badge-secondary badge-pill mr-1 mb-1 p-2">
+                                                            {{ answer }}
+                                                        </span>
+                                                        {% endfor %}
+                                                    {% else %}
+                                                        <span class="text-muted">
+                                                            <i class="fas fa-exclamation-triangle mr-1"></i>
+                                                            No answer provided
+                                                        </span>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="answer-section">
+                                                <h6 class="text-success mb-2">
+                                                    <i class="fas fa-check-circle mr-1"></i>
+                                                    Correct Answer(s):
+                                                </h6>
+                                                <div class="answer-list">
+                                                    {% for answer in result['correct_answers'] %}
+                                                        <span class="badge badge-success badge-pill mr-1 mb-1 p-2">
+                                                        {{ answer }}
+                                                    </span>
+                                                    {% endfor %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="text-center mt-4">
+                <div class="card border-0 shadow-sm bg-light">
+                    <div class="card-body">
+                        <h5 class="card-title text-primary mb-3">
+                            <i class="fas fa-redo mr-2"></i>
+                            What's Next?
+                        </h5>
+                        <div class="btn-group-vertical btn-group-lg" role="group">
+                            <a href="/" class="btn btn-primary btn-lg mb-2 shadow-sm">
+                                <i class="fas fa-redo mr-2"></i>
+                                Take Quiz Again
+                            </a>
+                            <button onclick="window.print()" class="btn btn-outline-secondary btn-lg shadow-sm">
+                                <i class="fas fa-print mr-2"></i>
+                                Print Results
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Scripts -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        // Animate score circle on load
+        setTimeout(function () {
+            $('.score-circle').addClass('animate');
+        }, 500);
+
+        // Add smooth animations to cards
+        $('.question-review').each(function (index) {
+            $(this).css({
+                'opacity': '0',
+                'transform': 'translateY(20px)'
+            });
+
+            setTimeout(() => {
+                $(this).css({
+                    'opacity': '1',
+                    'transform': 'translateY(0)',
+                    'transition': 'all 0.5s ease'
+                });
+            }, index * 200);
+        });
+
+        // Print styling
+        $('body').addClass('print-ready');
+    });
+</script>
+</body>
+
+</html>
